@@ -1,0 +1,848 @@
+\documentclass[12pt,a4paper]{report}
+
+% ==============================
+% PACKAGES
+% ==============================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{tocbibind}
+\usepackage{array}
+\usepackage{placeins}
+\usepackage{microtype}
+
+\geometry{margin=2.5cm}
+\onehalfspacing
+\graphicspath{{Files/Fichiers/}}
+
+% Liens sans cadres rouges dans le sommaire
+\hypersetup{
+    hidelinks
+}
+
+\begin{document}
+
+% ==============================
+% PAGE DE GARDE PERSONNALISEE
+% ==============================
+\begin{titlepage}
+    \centering
+
+    \noindent
+\begin{minipage}[t]{0.45\textwidth}
+    \vspace{0pt}
+    \flushleft
+    \includegraphics[height=2.2cm]{Universite-Sorbonne-Paris-Nord.png}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
+    \vspace{0pt}
+    \flushright
+    \includegraphics[height=1.7cm]{sup galilée.png}
+\end{minipage}
+
+    \vspace{2cm}
+
+    {\Huge \textbf{PROTOTYPE DE PROTHÈSE MYOÉLECTRIQUE} \par}
+    \vspace{0.6cm}
+    {\Large Instrumentation Génie Biomédical \par}
+
+    \vspace{1cm}
+
+    \includegraphics[width=0.42\textwidth]{prototype.png}
+
+    \vfill
+
+    \begin{flushleft}
+        \large \textbf{Présenté par :} Joseph Ulrich MBODE NGOMBE
+    \end{flushleft}
+
+    \vspace{0.3cm}
+
+    \begin{flushleft}
+        \large \textbf{Année :} 2026
+    \end{flushleft}
+\end{titlepage}
+
+% ==============================
+% REMERCIEMENTS
+% ==============================
+\chapter*{Remerciements}
+\addcontentsline{toc}{chapter}{Remerciements}
+
+Je tiens à exprimer ma profonde gratitude à toutes les personnes qui ont contribué, de près ou de loin, à la réalisation de ce projet de prototype de prothèse myoélectrique.
+
+Mes sincères remerciements s’adressent tout d’abord à mes encadrants, \textbf{Mme Nadia DJAKER} et \textbf{M. Jean-Marie FEYBESSE}, pour leur accompagnement, leurs conseils, leur disponibilité et la qualité de leur encadrement tout au long de ce travail.
+
+J’adresse également mes remerciements à \textbf{Mme Violeta Rodriguez} pour son soutien, ses conseils en biologie et anatomie humaine, ainsi que pour son accompagnement.
+
+Je remercie aussi \textbf{M. Maxime DIVET de REEV CARE}  pour l'échange, ses conseils techniques et l’intérêt porté à ce projet.
+
+Sans oublier également le \textbf{CRIG}, son président \textbf{Zineddine CHEBBAH} et son vice-président \textbf{Jordan TOE} pour leur assistance quotidienne et technique durant toute la durée du projet.
+
+Enfin, je remercie l’ensemble des personnes ayant apporté un soutien académique, technique ou moral à la réalisation de ce prototype.
+
+\vspace{1cm}
+\begin{flushright}
+Joseph Ulrich MBODE NGOMBE
+\end{flushright}
+
+% ==============================
+% SOMMAIRE
+% ==============================
+\tableofcontents
+\clearpage
+
+% ==============================
+% LISTE DES FIGURES
+% ==============================
+\listoffigures
+\clearpage
+
+% ==============================
+% INTRODUCTION
+% ==============================
+\chapter{Introduction}
+
+\section{Contexte}
+Les prothèses robotisées constituent aujourd’hui un domaine central de la biomécatronique, à l’intersection de l’instrumentation biomédicale, de l’électronique embarquée, de la mécanique et du traitement du signal. Le développement de membres artificiels intelligents vise à restaurer une partie des fonctions perdues chez les personnes amputées, tout en améliorant leur autonomie et leur qualité de vie.
+
+Parmi les différentes familles de prothèses existantes, les prothèses myoélectriques occupent une place particulière. Elles exploitent l’activité électrique produite par les muscles résiduels afin de commander des actionneurs mécaniques. Cette approche permet de transformer une intention musculaire biologique en mouvement artificiel contrôlé.
+
+\section{Problématique}
+La problématique centrale de ce projet est la suivante :
+
+\begin{quote}
+Comment transformer une activité musculaire biologique en mouvement mécanique contrôlé ?
+\end{quote}
+
+Cette problématique implique plusieurs verrous techniques :
+\begin{itemize}
+    \item l’acquisition fiable du signal EMG ;
+    \item son conditionnement et son interprétation ;
+    \item la commande d’une main articulée ;
+    \item l’intégration d’un retour sensoriel pour améliorer l’interaction utilisateur--prothèse.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{problématique.png}
+    \caption{Illustration de la problématique générale du projet.}
+    \label{fig:problematique}
+\end{figure}
+
+\section{Objectifs du projet}
+L’objectif général est de concevoir un prototype fonctionnel de prothèse myoélectrique intégrant :
+\begin{itemize}
+    \item l’exploitation du signal EMG ;
+    \item la commande d’une main articulée ;
+    \item l’intégration d’un retour sensoriel ;
+    \item la réalisation d’un prototype physique fabriqué.
+\end{itemize}
+
+\section{Démarche adoptée}
+Le travail réalisé s’appuie sur une approche pluridisciplinaire combinant :
+\begin{itemize}
+    \item l’étude du marché et des solutions existantes ;
+    \item la conception électronique du système ;
+    \item la conception mécanique et la modélisation 3D ;
+    \item le prototypage physique ;
+    \item l’évaluation critique et les perspectives d’amélioration.
+\end{itemize}
+
+\FloatBarrier
+
+% ==============================
+% ETAT DE L'ART
+% ==============================
+\chapter{État de l’art et étude du marché}
+
+\section{Typologie des prothèses}
+Les prothèses de membre supérieur peuvent être regroupées en plusieurs catégories :
+\begin{itemize}
+    \item les prothèses passives ;
+    \item les prothèses body-powered ;
+    \item les prothèses myoélectriques.
+\end{itemize}
+
+Les prothèses passives ont principalement un rôle esthétique ou de stabilisation. Les prothèses body-powered exploitent une transmission mécanique commandée par les mouvements du corps. Les prothèses myoélectriques, quant à elles, utilisent les signaux électromyographiques pour piloter des actionneurs.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{type_prothèse.png}
+    \caption{Classification simplifiée des principaux types de prothèses.}
+    \label{fig:types_protheses}
+\end{figure}
+
+\section{Intérêt des prothèses myoélectriques}
+Les prothèses myoélectriques permettent une interaction plus intuitive entre l’utilisateur et le dispositif. Elles offrent un meilleur potentiel fonctionnel que les solutions passives, tout en ouvrant la voie à des stratégies de commande avancées.
+
+Cependant, elles présentent aussi des contraintes :
+\begin{itemize}
+    \item bruit et variabilité du signal EMG ;
+    \item coût potentiellement élevé ;
+    \item besoin d’un bon positionnement des électrodes ;
+    \item nécessité d’une calibration et d’un apprentissage utilisateur.
+\end{itemize}
+
+\FloatBarrier
+
+% ==============================
+% PRINCIPE EMG
+% ==============================
+\chapter{Principe du signal EMG et chaîne de traitement}
+
+\section{Principe de l’électromyographie}
+L’électromyographie (EMG) consiste à mesurer l’activité électrique générée par les muscles lors de leur contraction. Cette activité est captée par des électrodes placées à la surface de la peau, puis amplifiée, filtrée et exploitée pour commander le système.
+
+La chaîne fonctionnelle peut être résumée comme suit :
+
+\begin{center}
+Muscle $\rightarrow$ électrodes $\rightarrow$ amplification $\rightarrow$ traitement $\rightarrow$ commande
+\end{center}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{principe emg.png}
+    \caption{Chaîne fonctionnelle simplifiée de l’exploitation du signal EMG.}
+    \label{fig:principe_emg}
+\end{figure}
+
+\section{Importance du positionnement des électrodes}
+La qualité du signal EMG dépend fortement du positionnement des électrodes sur le muscle. Un mauvais placement peut dégrader l’amplitude utile du signal et rendre la commande moins fiable.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{positionnement_electrodes.png}
+    \caption{Influence du positionnement des électrodes sur la qualité du signal EMG.}
+    \label{fig:positionnement_electrodes}
+\end{figure}
+
+\section{Capteur EMG utilisé}
+Dans ce projet, un module EMG de type MyoWare est utilisé pour acquérir l’activité musculaire. Ce capteur permet de convertir l’activité bioélectrique en un signal analogique exploitable par le microcontrôleur.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{module_emg.png}
+    \caption{Module EMG utilisé pour l’acquisition du signal musculaire.}
+    \label{fig:capteur_emg}
+\end{figure}
+
+\section{Traitement du signal}
+Le traitement du signal EMG comprend typiquement :
+\begin{itemize}
+    \item l’acquisition du signal brut ;
+    \item l’amplification ;
+    \item le filtrage ;
+    \item l’extraction d’une grandeur exploitable pour la commande.
+\end{itemize}
+
+Dans une approche simple, le signal analogique conditionné est converti par l’ADC du microcontrôleur, puis interprété pour générer des ordres de mouvement.
+
+\FloatBarrier
+
+% ==============================
+% ARCHITECTURE
+% ==============================
+\chapter{Architecture globale du système}
+
+\section{Vue d’ensemble}
+L’architecture retenue repose sur l’interconnexion de plusieurs sous-systèmes :
+\begin{itemize}
+    \item capteur EMG MyoWare ;
+    \item microcontrôleur ESP32-S3 ;
+    \item driver PWM PCA9685 ;
+    \item capteurs auxiliaires (FSR, BMP280, potentiomètre) ;
+    \item actionneurs et dispositifs de retour (moteur vibreur, buzzer, ruban LED) ;
+    \item main robotisée.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{architecture_globale.png}
+    \caption{Architecture globale du prototype de prothèse myoélectrique.}
+    \label{fig:architecture_globale}
+\end{figure}
+
+\section{Rôle des principaux blocs}
+Le signal EMG est acquis à l’aide d’électrodes et conditionné par le capteur MyoWare. Il est ensuite lu par l’ESP32-S3 via une entrée analogique. Le microcontrôleur traite cette information et pilote le driver PWM PCA9685, chargé de commander les actionneurs de la main robotisée.
+
+En parallèle, d’autres capteurs et dispositifs sont intégrés afin d’enrichir l’interaction :
+\begin{itemize}
+    \item FSR pour la pression ou le contact ;
+    \item BMP280 pour la mesure environnementale ;
+    \item moteur vibreur pour le retour haptique ;
+    \item buzzer et ruban LED pour le retour sonore et visuel.
+\end{itemize}
+
+\FloatBarrier
+
+% ==============================
+% CONCEPTION ELECTRONIQUE
+% ==============================
+\chapter{Conception électronique}
+
+\section{Architecture électronique générale}
+L’architecture électronique du prototype de prothèse myoélectrique repose sur plusieurs blocs fonctionnels interconnectés. L’objectif principal est de convertir l’activité musculaire mesurée par des capteurs EMG en commandes mécaniques destinées à piloter une main robotisée.
+
+Le système est organisé autour d’un microcontrôleur central qui assure la lecture des capteurs, le traitement des signaux et la génération des commandes pour les actionneurs.
+
+Les principaux blocs électroniques sont :
+\begin{itemize}
+    \item un module d'acquisition EMG ;
+    \item un microcontrôleur ESP32-S3 ;
+    \item un driver PWM PCA9685 pour la commande des actionneurs ;
+    \item plusieurs capteurs auxiliaires (FSR, BMP280, potentiomètre) ;
+    \item des modules de retour sensoriel (buzzer, moteur vibreur, ruban LED) ;
+    \item un système d’alimentation séparant logique et puissance.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{board.jpeg}
+\caption{Vue de la carte finale.}
+\label{fig:arch_elec}
+\end{figure}
+
+Cette organisation modulaire permet de faciliter le développement, les tests et l’évolution future du système.
+
+\section{Chaîne d’acquisition du signal EMG}
+La première étape du système consiste à mesurer l’activité musculaire de l’utilisateur. Cette activité est captée par des électrodes placées sur la peau au niveau du muscle ciblé.
+
+Le signal EMG est un signal électrique de très faible amplitude, généralement compris entre quelques microvolts et quelques millivolts. Il nécessite donc un conditionnement analogique avant d’être exploitable.
+
+Dans ce prototype, un module EMG de type \textbf{MyoWare} est utilisé. Ce module intègre :
+\begin{itemize}
+    \item un amplificateur différentiel ;
+    \item un filtrage analogique ;
+    \item une adaptation du signal pour une sortie analogique exploitable.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth]{module_emg.png}
+\caption{Module EMG MyoWare utilisé pour l’acquisition du signal musculaire.}
+\label{fig:emg}
+\end{figure}
+
+Une chaîne EMG classique comprend généralement plusieurs étages :
+\begin{itemize}
+    \item amplification du signal ;
+    \item filtrage passe-haut pour éliminer les dérives lentes ;
+    \item filtrage passe-bas pour supprimer les hautes fréquences ;
+    \item suppression du bruit secteur (50 Hz) si nécessaire.
+\end{itemize}
+
+La bande fréquentielle utile du signal EMG se situe généralement entre \textbf{20 Hz et 450 Hz}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{acquisition.jpeg}
+\caption{Chaîne typique d’acquisition et de traitement du signal EMG.}
+\label{fig:chaine_emg}
+\end{figure}
+
+\section{Microcontrôleur principal}
+Le cœur du système électronique est un \textbf{ESP32-S3}. Ce microcontrôleur assure plusieurs fonctions essentielles :
+\begin{itemize}
+    \item lecture du signal analogique provenant du capteur EMG ;
+    \item acquisition des capteurs auxiliaires ;
+    \item traitement du signal et prise de décision ;
+    \item génération des commandes destinées aux actionneurs.
+\end{itemize}
+
+L’ESP32-S3 a été choisi pour plusieurs raisons :
+\begin{itemize}
+    \item présence d’un convertisseur analogique-numérique (ADC) intégré ;
+    \item puissance de calcul suffisante pour le traitement du signal ;
+    \item grande disponibilité d’entrées/sorties ;
+    \item compatibilité avec de nombreux protocoles de communication.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{pinout ESP32S3.png}
+\caption{Microcontrôleur ESP32-S3 utilisé comme unité de traitement centrale.}
+\label{fig:esp32}
+\end{figure}
+
+\section{Commande des actionneurs}
+La commande des servomoteurs de la main robotisée est réalisée à l’aide d’un driver PWM \textbf{PCA9685}. Ce circuit intégré permet de générer jusqu’à 16 signaux PWM indépendants.
+
+Le PCA9685 communique avec le microcontrôleur via un bus \textbf{I\textsuperscript{2}C}. Cette architecture présente plusieurs avantages :
+\begin{itemize}
+    \item réduction de la charge de calcul du microcontrôleur ;
+    \item commande simultanée de plusieurs moteurs ;
+    \item stabilité des signaux PWM.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{pca9685.jpg}
+\caption{Driver PWM PCA9685 utilisé pour la commande des servomoteurs.}
+\label{fig:pca}
+\end{figure}
+
+\section{Capteurs et périphériques auxiliaires}
+
+Afin d'améliorer l'interaction utilisateur--prothèse, plusieurs capteurs et dispositifs ont été intégrés au système :
+\begin{itemize}
+    \item un capteur \textbf{FSR} pour la mesure de pression ;
+    \item un capteur \textbf{BMP280} pour les mesures environnementales ;
+    \item un \textbf{potentiomètre} pour les réglages expérimentaux ;
+    \item un \textbf{buzzer passif} pour un retour sonore ;
+    \item un \textbf{moteur vibreur} pour un retour haptique ;
+    \item un \textbf{ruban LED} pour un retour visuel.
+\end{itemize}
+
+\subsection{Capteur de pression FSR RP-S40-ST}
+
+Pour la détection de pression ou de contact, le prototype utilise un capteur flexible de type \textbf{RP-S40-ST}. Il s’agit d’un capteur mince, souple et léger, particulièrement adapté à une intégration dans une prothèse expérimentale. Le datasheet indique notamment une dimension externe d’environ \textbf{40 mm $\times$ 40 mm}, une zone active d’environ \textbf{36 mm $\times$ 36 mm} et une épaisseur de l’ordre de \textbf{0{,}45 mm}. La plage de détection annoncée est d’environ \textbf{20 g à 10 kg}, avec un temps de réponse inférieur à \textbf{10 ms}. :contentReference[oaicite:0]{index=0}
+
+Le principe de fonctionnement repose sur une variation de résistance électrique sous l’effet d’une pression mécanique. Lorsque la force appliquée sur la zone sensible augmente, la résistance du capteur diminue. Ce comportement permet d’exploiter le composant dans un montage simple de type pont diviseur de tension, afin de transformer la pression appliquée en une tension analogique mesurable par l’ADC du microcontrôleur. La courbe caractéristique force/résistance donnée par le fabricant montre bien cette relation décroissante, avec une sensibilité plus marquée pour les faibles charges. :contentReference[oaicite:1]{index=1}
+
+Dans le cadre de ce projet, le capteur FSR peut être utilisé pour plusieurs fonctions :
+\begin{itemize}
+    \item détecter le contact entre la prothèse et un objet ;
+    \item estimer qualitativement la force de préhension ;
+    \item déclencher un retour sensoriel lorsque la pression dépasse un seuil ;
+    \item sécuriser la commande en limitant un effort excessif sur l’objet manipulé.
+\end{itemize}
+
+Du point de vue de l’intégration, ce capteur présente plusieurs avantages pour une prothèse biomécatronique :
+\begin{itemize}
+    \item faible encombrement ;
+    \item masse réduite ;
+    \item montage simple ;
+    \item temps de réponse rapide ;
+    \item bonne compatibilité avec une acquisition analogique embarquée.
+\end{itemize}
+
+Ses limites doivent cependant être rappelées : la réponse n’est pas parfaitement linéaire, une hystérésis peut apparaître, et la précision absolue reste inférieure à celle d’un capteur de force dédié. Il s’agit donc davantage d’un capteur de contact/pression relative que d’un instrument de mesure de force de haute précision. :contentReference[oaicite:2]{index=2}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.52\textwidth]{Files/Fichiers/Capteur FSR.png}
+\caption{Capteur de pression flexible RP-S40-ST utilisé pour la détection de pression.}
+\label{fig:fsr_photo}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth]{Files/Fichiers/dim.png}
+\caption{Dimensions principales du capteur RP-S40-ST.}
+\label{fig:fsr_dimensions}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.58\textwidth]{Files/Fichiers/FSR.png}
+\caption{Évolution de la résistance du capteur en fonction de la force appliquée.}
+\label{fig:fsr_force_resistance}
+\end{figure}
+
+\subsection{Autres modules et composants}
+
+Le système intègre également un capteur BMP280 pour les mesures environnementales, ainsi que plusieurs périphériques de test et de retour utilisateur : un potentiomètre pour les réglages expérimentaux, un buzzer passif pour le retour sonore, un moteur vibreur pour le retour haptique et un ruban LED pour le retour visuel.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.48\textwidth}
+\centering
+\includegraphics[width=\textwidth]{Files/Fichiers/ruban_led.png}
+\caption{Ruban led WS2812b 5V}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\centering
+\includegraphics[width=\textwidth]{branchement-bme280-arduino-bmp280-3v3-5v-i2c-spi.jpg}
+\caption{Module BMP280}
+\end{subfigure}
+\caption{Module de température environnementale BMP280}
+\label{fig:capteurs}
+\end{figure}
+
+\section{Gestion de l’alimentation}
+La gestion de l’alimentation constitue un aspect critique du système électronique. En effet, les actionneurs peuvent consommer des courants importants susceptibles de perturber les circuits sensibles.
+
+Afin de limiter ces perturbations, deux rails d’alimentation distincts ont été utilisés :
+\begin{itemize}
+    \item une alimentation logique autour de \textbf{5 V} pour les circuits électroniques ;
+    \item une alimentation dédiée aux actionneurs autour de \textbf{5.5 V}.
+\end{itemize}
+
+Cette séparation permet d’éviter que les variations de courant des moteurs n’introduisent du bruit dans la chaîne d’acquisition EMG.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{DIStru_alim.jpeg}
+\caption{Distribution de l’alimentation entre les différents blocs du système.}
+\label{fig:alim}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{ALIM.jpeg}
+\caption{Vue expérimentale du câblage de l’alimentation du système.}
+\label{fig:alim_schema}
+\end{figure}
+
+\FloatBarrier
+
+% ==============================
+% CONCEPTION MECANIQUE
+% ==============================
+\chapter{Conception mécanique et CAO 3D}
+
+\section{Modélisation mécanique}
+La main robotisée et l’avant-bras ont été conçus par modélisation 3D, afin de définir :
+\begin{itemize}
+    \item la géométrie générale ;
+    \item l’intégration des composants électroniques ;
+    \item le cheminement des transmissions ;
+    \item la structure mécanique globale.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{main_3D.png}
+    \caption{Vue CAO 3D de la prothèse développée.}
+    \label{fig:cao_main}
+\end{figure}
+
+\section{Intégration des composants}
+La conception mécanique prend en compte l’encombrement des cartes électroniques, des capteurs, des actionneurs et des éléments de transmission, afin d’aboutir à une architecture compacte et cohérente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.72\textwidth]{cao_main.png}
+    \caption{Vue d’intégration mécanique et d’assemblage de la prothèse.}
+    \label{fig:integration_meca}
+\end{figure}
+
+\FloatBarrier
+
+% ==============================
+% FABRICATION
+% ==============================
+\chapter{Fabrication et prototypage}
+
+\section{Procédés de fabrication}
+Le prototype a été fabriqué par impression 3D, avec utilisation de :
+\begin{itemize}
+    \item PLA 1.75 mm ;
+    \item TPU 1.75 mm ;
+    \item fil de nylon 1 mm pour certaines transmissions.
+\end{itemize}
+
+Le poids total du prototype est d’environ 470 g.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{conception.png}
+    \caption{Fabrication et assemblage du prototype.}
+    \label{fig:fabrication}
+\end{figure}
+
+\section{Assemblage du prototype}
+L’assemblage final combine les pièces imprimées, les éléments de transmission, les cartes électroniques et les capteurs, afin d’obtenir une prothèse fonctionnelle démonstrative.
+
+\clearpage
+
+\begin{figure}[p]
+\centering
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+\includegraphics[height=5.2cm,keepaspectratio]{assemblage4.jpeg}
+\caption{Assemblage mécanique initial.}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+\includegraphics[height=5.2cm,keepaspectratio]{assemblage2.jpeg}
+\caption{Intégration électronique.}
+\end{subfigure}
+
+\vspace{0.5cm}
+
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+\includegraphics[height=5.2cm,keepaspectratio]{assemblage.jpeg}
+\caption{Prototype en phase de test.}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+\includegraphics[height=5.2cm,keepaspectratio]{impresssio.jpeg}
+\caption{Impression 3D d'une pièce en cours.}
+\end{subfigure}
+
+\caption{Étapes de fabrication et d’assemblage du prototype de prothèse myoélectrique.}
+\label{fig:assemblage_prothese}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{fabrication.jpeg}
+    \caption{Photographies du prototype en phase d’assemblage et de test.}
+    \label{fig:photos_prototype}
+\end{figure}
+
+\FloatBarrier
+
+% ==============================
+% FEEDBACK SENSORIEL
+% ==============================
+\chapter{Feedback sensoriel}
+
+\section{Principe}
+L’intégration d’un retour sensoriel vise à améliorer l’expérience utilisateur en fournissant une information complémentaire sur l’état du système ou l’interaction avec l’environnement.
+
+\section{Dispositifs intégrés}
+Dans ce prototype, le retour sensoriel repose sur plusieurs modalités :
+\begin{itemize}
+    \item retour visuel par ruban LED ;
+    \item retour vibratoire par moteur vibreur ;
+    \item retour sonore par buzzer ;
+    \item information issue des capteurs.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{feedback sensoriel.png}
+    \caption{Exemples de retour sensoriel intégrés au prototype.}
+    \label{fig:feedback_sensoriel}
+\end{figure}
+
+\FloatBarrier
+
+% ==============================
+% IMPLEMENTATION LOGICIELLE
+% ==============================
+\chapter{Implémentation logicielle}
+
+\section{Principe de commande}
+Le microcontrôleur acquiert le signal EMG, le convertit en données numériques et applique une logique de décision permettant de commander la main robotisée. Cette logique peut être basée sur des seuils, des états ou des scénarios de commande plus élaborés.
+
+\section{Pilotage des actionneurs}
+La commande des servomoteurs est réalisée via le PCA9685, tandis que les autres sorties pilotent les éléments de retour sensoriel.
+
+\section{Évolutions possibles}
+À terme, la partie logicielle pourrait intégrer :
+\begin{itemize}
+    \item une classification EMG plus avancée ;
+    \item une adaptation automatique au profil utilisateur ;
+    \item des algorithmes d’intelligence artificielle embarquée.
+\end{itemize}
+
+\FloatBarrier
+
+% ==============================
+% RESULTATS
+% ==============================
+\chapter{Résultats expérimentaux}
+
+\section{Validation fonctionnelle}
+Le projet a permis de démontrer la faisabilité d’un prototype de prothèse myoélectrique intégrant :
+\begin{itemize}
+    \item l’instrumentation biomédicale ;
+    \item les systèmes embarqués ;
+    \item la conception mécanique ;
+    \item la fabrication additive.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.72\textwidth]{soudure.jpeg}
+    \caption{Phase pratique d’assemblage et de mise au point du PCB prototype.}
+    \label{fig:soudure_prototype}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{assemblage3.jpeg}
+\caption{Prototype de prothèse myoélectrique lors des tests expérimentaux.}
+\label{fig:test_prothese}
+\end{figure}
+
+\section{Tests réalisés}
+Les essais menés ont porté sur :
+\begin{itemize}
+    \item l’acquisition du signal EMG ;
+    \item la réponse de la commande ;
+    \item l’intégration mécanique ;
+    \item le fonctionnement des modules de feedback sensoriel.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{moteurs.jpeg}
+
+\vspace{0.5cm}
+
+\includegraphics[width=0.75\textwidth]{led.jpeg}
+\caption{Tests du système de feedback sensoriel (vibration, LED, buzzer).}
+\label{fig:tests}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{data_1.jpeg}
+\caption{Première série de mesures expérimentales du signal EMG.}
+\label{fig:data1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{data_2.jpeg}
+\caption{Expérimentations réalisées pour valider l’acquisition EMG et la commande de la main robotisée.}
+\label{fig:feedback_test}
+\end{figure}
+
+\FloatBarrier
+
+% ==============================
+% DISCUSSION
+% ==============================
+\chapter{Analyse critique et discussion}
+
+\section{Forces du prototype}
+Le prototype développé présente plusieurs points forts :
+\begin{itemize}
+    \item approche pluridisciplinaire complète ;
+    \item architecture embarquée cohérente ;
+    \item intégration d’un feedback sensoriel ;
+    \item démonstration concrète de faisabilité.
+\end{itemize}
+
+\section{Limites}
+Certaines limites subsistent :
+\begin{itemize}
+    \item sensibilité du signal EMG au bruit ;
+    \item encombrement encore important ;
+    \item électronique encore en phase de prototypage ;
+    \item performances dépendantes du placement des électrodes.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{critiques.png}
+    \caption{Illustrations relatives à l’analyse critique du prototype et aux alternatives envisagées.}
+    \label{fig:analyse_critique}
+\end{figure}
+
+\FloatBarrier
+
+% ==============================
+% PERSPECTIVES
+% ==============================
+\chapter{Perspectives de recherche}
+
+Les perspectives envisagées pour améliorer ce prototype sont les suivantes :
+\begin{itemize}
+    \item classification EMG par intelligence artificielle ;
+    \item conception d’un PCB dédié ;
+    \item miniaturisation du système ;
+    \item amélioration de la robustesse mécanique ;
+    \item réflexion à plus long terme sur la certification biomédicale et le marquage CE.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{perspectives.png}
+    \caption{Perspectives d’évolution du prototype de prothèse myoélectrique.}
+    \label{fig:perspectives}
+\end{figure}
+
+\FloatBarrier
+% ==============================
+% CONCLUSION
+% ==============================
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+
+Ce projet a permis de concevoir et de réaliser un prototype de prothèse myoélectrique fonctionnelle, mettant en œuvre des compétences en instrumentation biomédicale, en électronique embarquée, en mécanique et en fabrication additive.
+
+Le travail réalisé démontre la faisabilité d’une chaîne complète allant de l’acquisition du signal musculaire à la commande d’une main robotisée, tout en intégrant des fonctions de retour sensoriel.
+
+Ce prototype constitue une base sérieuse pour des développements futurs plus avancés, notamment en matière de miniaturisation, d’intelligence embarquée et d’industrialisation.
+
+
+\vspace{1cm}
+
+\begin{flushright}
+
+\textit{Projet réalisé par}
+
+\textbf{Joseph Ulrich MBODE NGOMBE}
+
+Instrumentation Génie Biomédical — 2026
+
+LinkedIn : https://www.linkedin.com/in/joseph-mbode/
+Portefolio: https://midi-front-4e0.notion.site/Prototype-de-proth-se-EMG-28b26e366c288043819edcc0a3a05ee6
+
+
+
+
+
+\clearpage
+\thispagestyle{empty}
+
+\vspace*{\fill}
+
+\begin{center}
+
+\textbf{Notice de propriété intellectuelle}
+
+\vspace{0.5cm}
+
+Ce document présente un prototype de prothèse myoélectrique développé dans le cadre d’un projet académique en instrumentation biomédicale.
+
+Le prototype présenté s’appuie partiellement sur une conception mécanique existante acquise puis modifiée dans le cadre de ce projet. Les travaux d’intégration, de conception électronique, de développement logiciel, d’expérimentation et de rédaction présentés dans ce document ont été réalisés par :
+
+\vspace{0.5cm}
+
+\textbf{Joseph Ulrich MBODE NGOMBE}
+
+\vspace{0.5cm}
+
+\includegraphics[width=3cm]{Files/Fichiers/tête.png}
+
+\vspace{0.5cm}
+
+Ce document est destiné à un usage académique. Toute reproduction ou diffusion doit mentionner l’auteur et le cadre du projet.
+
+\vspace{0.7cm}
+
+e-mail :
+
+josephulrich71@gmail.com
+
+\vspace{0.5cm}
+
+© 2026 — Joseph Ulrich MBODE NGOMBE
+
+\end{center}
+
+\vspace*{\fill}
+
+\clearpage
+
+
+\end{flushright}
+
+
+
+\end{document}
+
